@@ -1,0 +1,99 @@
+~ How to start
+	1. "python -m virtualenv env" (creating venv)
+	2. "cd env Scripts"
+	3. "activate" (to activate venv)
+	4. now cd back to the main dkir
+	5. now install django "pip install Django"
+	6. now start/create a project "django-admin startproject name"
+	7. creating apps "python manage.py startapp home" where home is the name of the app
+	8. running/booting the server "python manage.py runserver"
+	9. "py manage.py runserver 0.0.0.0:5000" ro run the server on custom port 5000
+	10. we have to add the apps in the settings.py manually
+
+~ 
+	* views.py = all the logical part is written here i.e sending data from backend to frontend
+	* urls.py = routing
+	* *context* is used to send data from backend to frontent
+
+~ Models and Migrations-
+=> Models
+	# id = models.AutoField()
+   	# autogenetated by Django, also known as primary key - it dosen't get repeated in the table
+
+* whenever we make any changes into the models.py i.e whenever any model is created, then we have to makemigrations by using "py manage.py makemigrations"
+* hit "py manage.py migrate" to show data inside the database
+
+**** Q. if any of the migration file is deleted then what will happen?
+A. django will know that it got deleted and how cz it creates an entry in its own database to keep track, and the data will collapse and will show an error.
+
+Q. how django knows which model we changed.
+A. it compares it with the last migrations?....no
+django internally saare migrations ko "py manage.py migrate" hit krne pr internally saare migration cmds ko run krta hai, run krne ke baad meimn ek models ki ek state generate krta hai, and us state to database ke structure se manage(compare) krta hai, if they both get sequal i.e no chnges if not i.e there are some changes and then django makes a new migration file with the changes.
+
+~ Django shell - used for intercaction with database, used to add database
+1. first way to add data
+	1. py manage.py shell
+	2. from home.models import *
+	3. student = Student(name="Kshitij", age=20, email="kshitijhrms@gmail.com", address="something", )
+	4. student => output = <Student: Student object (None)>
+	5. student.save()
+ 	6. then calling student "student" => output = <Student: Student object (1)>
+2. another way, where objects is a model manager
+	1. student = Student.objects.create(name="Trijal", age=15, email="trijal1@gmail.com", address="anything")
+	2. then we don't have to call "student.save()"
+3. now database has saved 2 records, how to get the record
+	1. Student.objects.all()
+    	   o/p => <QuerySet [<Student: Student object (1)>, <Student: Student object (2)>]>
+	2. Student.objects.all()[0] => to get/print Student 1
+	3. Student.objects.all()[0].name => to get/print name of Student 1
+4. to try or test any function
+5. used to create, edit and delete database or anything
+
+~ CRUD => create, read, update, delete
+	=> CREATE - ways to create objects in shell
+		1 n 2 are mentioned above
+		3. car_dict = {"car_name": "800", "speed": 60} # data in json (for ex)
+		   Car.objects.create(**car_dict)
+	=> READ - 
+		1. Car.objects.all() => this will give the output like object 1 2 n so on
+		2. "def __str__(self) -> str:
+        		return self.car_name" after using the following func in models.py the output will show the car_name respctively.
+	=> PRINT -
+		1. for car in cars:
+			print(f"{car.id} The car name is {car.car_name} with avg speed of {car.speed}")
+		2. car = Car.objects.get(id = 1) => to get the fist object, {*if the object doesn't exist then it will show and error, like if there are only 5 objects made and we "get(id = 10)" then the error will arrise.}
+		3. car = Car.objects.filter(id = 10) => if exists then it will print the 10th object if not it will print an empty list/QuerySet i.e won't show an exception (error)
+
+*{* here "f" in "print(f"...")" denotes “formatted string literals,” f-strings are string literals that have an f at the beginning and curly braces containing expressions that will be replaced with their values.
+
+Ex- 
+
+ 1. for car in cars:
+  	print(f"{car.id} Car name = {car.car_name}, with speed = {car.speed}")
+
+    Car name = , with speed = 50
+    Car name = Nexon, with speed = 110
+    Car name = Xuv 700, with speed = 150
+    Car name = 800, with speed = 60
+    Car name = Alto, with speed = 65
+
+ 2. for car in cars:
+   	print("{car.id} Car name = {car.car_name}, with speed = {car.speed}")
+    Car name = {car.car_name}, with speed = {car.speed}
+    Car name = {car.car_name}, with speed = {car.speed}
+    Car name = {car.car_name}, with speed = {car.speed}
+    Car name = {car.car_name}, with speed = {car.speed}
+    Car name = {car.car_name}, with speed = {car.speed}
+*}
+
+	=> UPDATE -
+		1. Step 1. to get the object we want to edit "car = Car.objects.get(id = 1)"
+		   Step 2. edit/update now "1. car.car_name = "Creta"
+					    2. car.speed = 180
+    					    3. car.save()"
+		2. "Car.objects.filter(id = 1).update(car_name = "Creta Dark Edition", speed = 185)"
+	=> DELETE -
+		1. "Car.objects.filter(id = 2).delete()" => to delete object having id = 2
+		2. "Car.objects.all().delete()" => to delete all the data
+		
+	
