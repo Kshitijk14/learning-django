@@ -2,6 +2,8 @@
 
 {% block start %}
 
+{% comment %} {{request.user}} {% endcomment %}
+
 <div class="container mt-5">
 
     {% comment %} Add Recipe Form Start {% endcomment %}
@@ -35,7 +37,7 @@
                     <label for="exampleInputEmail1" class="form-label">Search Food</label>
                     <input name="search" type="text" class="form-control">
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-success">Search</button>
             </form>
         </div>
     </div>

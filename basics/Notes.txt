@@ -97,3 +97,9 @@ Ex-
 		2. "Car.objects.all().delete()" => to delete all the data
 		
 	
+
+Auth:-
+
+
+ORM:-
+	
